@@ -7,6 +7,8 @@ description: Da usare quando bisogna aggiungere l'area editor /admin Daveo (logi
 
 Il modulo sta nel repo `daveo-info/daveo-admin` (cartella `modulo/`). Si **copia** nel sito, non si riscrive.
 
+**Dove trovarlo**: chiedi all'utente il percorso della copia locale di `daveo-admin` (di solito accanto al repo del sito, es. `..\daveo-admin`). Se non c'è, chiedigli di clonarlo lui dal repo dell'organizzazione. Prima di copiare, leggi la versione in `CHANGELOG.md` e scrivila nel rapporto finale.
+
 ## Passi
 
 1. **Leggi `docs/INTEGRAZIONE.md`** del repo `daveo-admin` dall'inizio alla fine, poi `docs/SICUREZZA.md`. Controlla che il sito sia React + Vite + TypeScript + React Router; se è Astro, segui la sezione "Note per Astro" e dillo all'utente.

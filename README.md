@@ -23,6 +23,14 @@ Domande anonime, archivio e pulizia di fine anno, CSV, avvisi email, merch, albu
 
 Con Claude Code: la skill `.claude/skills/integra-admin-daveo`. A mano: `docs/INTEGRAZIONE.md`.
 
+La skill dentro questo repo la vede solo una sessione aperta **qui**. Per usarla da una sessione aperta nel repo di un altro sito, copiala una volta nelle skill personali:
+
+```
+xcopy /E /I ".claude\skills\integra-admin-daveo" "%USERPROFILE%\.claude\skills\integra-admin-daveo"
+```
+
+Poi, nella sessione del sito, chiedi "integra l'area editor admin Daveo" e indica dove sta `daveo-admin`. Dopo ogni nuova versione del modulo, ricopia la skill.
+
 In breve: si copia `modulo/` in `src/daveo-admin/`, si adatta **solo** `src/admin.config.ts` (da `config/admin.config.esempio.ts`), si collegano rotta e layout, si copiano le migrazioni.
 
 ## Cartelle

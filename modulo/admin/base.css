@@ -28,27 +28,27 @@
   font-family: var(--adm-font);
   line-height: 1.5;
 }
-.adm *,
-.adm *::before,
-.adm *::after {
+:where(.adm) *,
+:where(.adm) *::before,
+:where(.adm) *::after {
   box-sizing: border-box;
 }
-.adm img {
+:where(.adm) img {
   max-width: 100%;
   height: auto;
 }
-.adm :is(input, button, textarea, select) {
+:where(.adm) :where(input, button, textarea, select) {
   font: inherit;
   color: inherit;
 }
-.adm button {
+:where(.adm) button {
   cursor: pointer;
 }
-.adm :is(h1, h2, h3, h4, p, ul, ol) {
+:where(.adm) :where(h1, h2, h3, h4, p, ul, ol) {
   margin: 0;
 }
 
-.adm .sr-only {
+:where(.adm) .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -60,7 +60,7 @@
   border: 0;
 }
 
-.adm .salta-contenuto {
+:where(.adm) .salta-contenuto {
   position: absolute;
   left: 1rem;
   top: -4rem;
@@ -71,23 +71,23 @@
   font-weight: 700;
   text-decoration: none;
 }
-.adm .salta-contenuto:focus {
+:where(.adm) .salta-contenuto:focus {
   top: 0.75rem;
 }
 
 /* Campi dei moduli (in VVV: .campo di global.css) */
-.adm .campo {
+:where(.adm) .campo {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.5rem;
 }
-.adm .campo label,
-.adm .campo .label {
+:where(.adm) .campo label,
+:where(.adm) .campo .label {
   font-weight: 700;
 }
-.adm .campo input,
-.adm .campo textarea,
-.adm .campo select {
+:where(.adm) .campo input,
+:where(.adm) .campo textarea,
+:where(.adm) .campo select {
   width: 100%;
   min-height: 3rem;
   padding: 0.75rem 1rem;
@@ -96,36 +96,36 @@
   background: var(--adm-carta);
   transition: border-color 140ms var(--adm-ease);
 }
-.adm .campo textarea {
+:where(.adm) .campo textarea {
   min-height: 10rem;
   resize: vertical;
   line-height: 1.5;
 }
 @media (hover: hover) {
-  .adm .campo input:hover,
-  .adm .campo textarea:hover {
+  :where(.adm) .campo input:hover,
+  :where(.adm) .campo textarea:hover {
     border-color: var(--adm-testo);
   }
 }
-.adm .campo input:focus-visible,
-.adm .campo textarea:focus-visible,
-.adm .campo select:focus-visible {
+:where(.adm) .campo input:focus-visible,
+:where(.adm) .campo textarea:focus-visible,
+:where(.adm) .campo select:focus-visible {
   outline-offset: 0;
   border-color: var(--adm-primario);
 }
-.adm .campo [aria-invalid='true'] {
+:where(.adm) .campo [aria-invalid='true'] {
   border-color: var(--adm-errore);
 }
-.adm .campo__aiuto {
+:where(.adm) .campo__aiuto {
   font-size: 0.9375rem;
   color: var(--adm-testo-tenue);
 }
-.adm .campo__errore {
+:where(.adm) .campo__errore {
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--adm-errore);
 }
-.adm ::placeholder {
+:where(.adm) ::placeholder {
   color: color-mix(in oklab, var(--adm-testo) 62%, var(--adm-chiaro));
   opacity: 1;
 }
