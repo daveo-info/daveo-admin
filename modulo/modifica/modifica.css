@@ -1,0 +1,164 @@
+/* Modalità modifica sul sito: solo per gli editor, caricata a parte. */
+
+/* Gli elementi modificabili: contorno tratteggiato, pieno al passaggio. */
+.vvm-attiva [data-modifica] {
+  outline: 2px dashed var(--adm-primario);
+  outline-offset: 4px;
+  cursor: pointer;
+}
+.vvm-attiva [data-modifica]:focus-visible {
+  outline-style: solid;
+  outline-width: 3px;
+}
+@media (hover: hover) {
+  .vvm-attiva [data-modifica]:hover {
+    outline-style: solid;
+    outline-width: 3px;
+  }
+}
+
+.vvm-barra {
+  position: fixed;
+  left: 50%;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  z-index: 1000;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--adm-testo);
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  font-family: var(--adm-font);
+  max-width: calc(100vw - 1rem);
+}
+.vvm-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .vvm-btn:hover {
+    background: rgb(255 255 255 / 0.14);
+  }
+}
+.vvm-btn.is-on {
+  background: var(--adm-chiaro);
+  color: var(--adm-primario);
+}
+.vvm-btn:focus-visible {
+  outline: 2px solid var(--adm-chiaro);
+  outline-offset: 2px;
+}
+.vvm-nuovo {
+  position: relative;
+}
+.vvm-menu {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 13rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.45);
+}
+.vvm-menu button {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--adm-testo);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+.vvm-menu button:focus-visible {
+  background: var(--adm-primario-velo-2);
+}
+@media (hover: hover) {
+  .vvm-menu button:hover {
+    background: var(--adm-primario-velo-2);
+  }
+}
+.vvm-suggerimento {
+  position: fixed;
+  left: 50%;
+  bottom: calc(4rem + env(safe-area-inset-bottom));
+  z-index: 999;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--adm-chiaro);
+  color: var(--adm-primario);
+  font-family: var(--adm-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--adm-ombra);
+  pointer-events: none;
+}
+
+/* Il cassetto: da destra su schermi larghi, a tutto schermo sul telefono. */
+.vvm-bloccato {
+  overflow: hidden;
+}
+.vvm-sfondo {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: rgb(30 20 22 / 0.45);
+}
+.vvm-cassetto {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(100%, 38rem);
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1rem 0;
+  box-shadow: -12px 0 32px -16px rgb(0 0 0 / 0.5);
+}
+.vvm-chiudi {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  float: right;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.25rem -0.25rem 0 0.5rem;
+  border: 1px solid var(--adm-bordo);
+  border-radius: 50%;
+  background: white;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vvm-cassetto {
+    animation: vvm-entra 220ms var(--adm-ease);
+  }
+  @keyframes vvm-entra {
+    from {
+      transform: translateX(2rem);
+      opacity: 0;
+    }
+  }
+}

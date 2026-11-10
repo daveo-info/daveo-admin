@@ -1,0 +1,733 @@
+/*
+  Area editor: sobria e veloce, pensata prima per il telefono.
+  Nessuna animazione decorativa. Usata anche dal cassetto della modalità modifica.
+*/
+.adm {
+  --adm-bordo: color-mix(in oklab, var(--adm-testo) 18%, white);
+  --adm-sfondo: #f6f4f1;
+  --adm-raggio: 8px;
+  min-height: 100dvh;
+  background: var(--adm-sfondo);
+  color: var(--adm-testo);
+  font-size: 1rem;
+}
+/* I titoli dell'admin; le anteprime mantengono lo stile del sito. */
+.adm :is(h1, h2, h3):not(.adm-anteprima *) {
+  font-family: var(--adm-font);
+  font-stretch: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: var(--adm-testo);
+}
+.adm h1 {
+  font-size: 1.5rem;
+}
+.adm h2 {
+  font-size: 1.25rem;
+}
+.adm h3 {
+  font-size: 1.0625rem;
+}
+
+/* ------------------------------------------------------------ struttura */
+.adm-barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--adm-primario);
+  color: var(--adm-chiaro);
+}
+.adm-barra a,
+.adm-barra button {
+  color: var(--adm-chiaro);
+  font-weight: 700;
+}
+.adm-barra button {
+  padding: 0;
+  border: 0;
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.adm-barra__nome {
+  text-decoration: none;
+}
+.adm-barra__dx {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9375rem;
+}
+.adm-corpo {
+  display: grid;
+  /* La striscia delle sezioni scorre da sola: non deve allargare tutta la pagina. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 0 5rem;
+}
+/* Telefono: le sezioni sono una striscia che scorre di lato, sotto la barra. */
+.adm-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--adm-sfondo);
+  border-bottom: 1px solid var(--adm-bordo);
+}
+.adm-nav ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.adm-nav a {
+  display: block;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  color: var(--adm-testo);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .adm-nav a:hover {
+    background: white;
+  }
+}
+.adm-nav a[aria-current='page'] {
+  background: var(--adm-primario);
+  color: var(--adm-chiaro);
+}
+.adm-pannello {
+  display: grid;
+  align-content: start;
+  gap: 1.25rem;
+  min-width: 0;
+  padding: 0 1rem;
+  outline: none;
+}
+@media (min-width: 60rem) {
+  .adm-corpo {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+    padding: 1.5rem 1.5rem 5rem;
+  }
+  .adm-nav {
+    top: 1.5rem;
+    border: 0;
+  }
+  .adm-nav ul {
+    flex-direction: column;
+    padding: 0;
+    overflow: visible;
+  }
+  .adm-nav a {
+    border-radius: 6px;
+  }
+  .adm-pannello {
+    padding: 0;
+  }
+}
+
+/* ------------------------------------------------------------ elementi base */
+.adm-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border: 1px solid var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+}
+.adm-testa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+.adm-aiuto {
+  font-size: 0.9375rem;
+  color: var(--adm-testo-tenue);
+  max-width: 70ch;
+}
+.adm-sotto {
+  margin-top: 0.5rem;
+}
+.adm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--adm-primario);
+  border-radius: 6px;
+  background: var(--adm-primario);
+  color: var(--adm-chiaro);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+@media (hover: hover) {
+  .adm-btn:hover {
+    background: var(--adm-primario-scuro);
+  }
+}
+.adm-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.adm-btn--sec {
+  background: white;
+  color: var(--adm-primario);
+}
+@media (hover: hover) {
+  .adm-btn--sec:hover {
+    background: var(--adm-primario-velo);
+  }
+}
+.adm-btn--peric {
+  background: white;
+  border-color: var(--adm-errore);
+  color: var(--adm-errore);
+}
+@media (hover: hover) {
+  .adm-btn--peric:hover {
+    background: #fbeaea;
+  }
+}
+.adm-btn--largo {
+  width: 100%;
+}
+.adm-btn--mini {
+  min-height: 2.25rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8125rem;
+}
+.adm-link {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--adm-primario);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.adm-indietro {
+  justify-self: start;
+  margin-top: 0.75rem;
+  color: var(--adm-primario);
+  font-weight: 700;
+  text-decoration: none;
+}
+.adm-azioni {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.adm-spingi {
+  margin-left: auto;
+}
+.adm-msg {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.adm-msg--ok {
+  background: #e3efe4;
+  color: var(--adm-ok);
+}
+.adm-msg--err {
+  background: #fbeaea;
+  color: var(--adm-errore);
+}
+.adm-avviso {
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  background: #fbf3e2;
+  color: #6b4a12;
+  font-size: 0.9375rem;
+}
+.adm-vuoto {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+  background: white;
+}
+
+/* ------------------------------------------------------------ panoramica */
+.adm-griglia {
+  display: grid;
+  gap: 0.75rem;
+}
+@media (min-width: 40rem) {
+  .adm-griglia {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.adm-riquadro {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+  background: white;
+  color: var(--adm-testo);
+  text-decoration: none;
+}
+.adm-riquadro span {
+  font-size: 0.9375rem;
+  color: var(--adm-testo-tenue);
+}
+@media (hover: hover) {
+  .adm-riquadro:hover {
+    border-color: var(--adm-primario);
+  }
+}
+.adm-riquadro--forte {
+  background: var(--adm-primario);
+  border-color: var(--adm-primario);
+  color: var(--adm-chiaro);
+}
+.adm-riquadro--forte span {
+  color: var(--adm-su-primario-tenue);
+}
+@media (hover: hover) {
+  .adm-riquadro--forte:hover {
+    background: var(--adm-primario-scuro);
+  }
+}
+.adm-riquadro--avviso {
+  border-color: #d9b56a;
+  background: #fbf3e2;
+}
+
+/* ------------------------------------------------------------ elenchi */
+.adm-strumenti {
+  display: grid;
+  gap: 0.6rem;
+}
+.adm-strumenti input[type='search'] {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--adm-bordo);
+  border-radius: 6px;
+  background: white;
+}
+.adm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.adm-chips button {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.85rem;
+  border: 1px solid var(--adm-bordo);
+  border-radius: 999px;
+  background: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.adm-chips button[aria-pressed='true'] {
+  background: var(--adm-testo);
+  border-color: var(--adm-testo);
+  color: white;
+}
+.adm-lista {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+  background: white;
+  overflow: hidden;
+}
+.adm-lista > li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+.adm-lista > li + li {
+  border-top: 1px solid var(--adm-bordo);
+}
+.adm-lista > li.is-nascosta .adm-lista__info,
+.adm-lista > li.is-nascosta .adm-lista__img {
+  opacity: 0.6;
+}
+.adm-lista__img {
+  flex: none;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 6px;
+  background: var(--adm-primario-velo);
+  overflow: hidden;
+}
+.adm-lista__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.adm-lista__info {
+  display: grid;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+  padding-block: 0.35rem;
+  color: var(--adm-testo);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .adm-lista__info:hover .adm-lista__titolo {
+    text-decoration: underline;
+  }
+}
+.adm-lista__titolo {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.adm-lista__meta {
+  font-size: 0.875rem;
+  color: var(--adm-testo-tenue);
+}
+.adm-taglia {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.adm-stato {
+  flex: none;
+  min-height: 2rem;
+  padding: 0.15rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: #ece8e3;
+  color: var(--adm-testo);
+}
+button.adm-stato {
+  cursor: pointer;
+}
+.adm-stato--on {
+  background: #e3efe4;
+  color: var(--adm-ok);
+}
+.adm-stato--evid {
+  background: var(--adm-primario-velo-2);
+  color: var(--adm-primario);
+}
+.adm-gruppo {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* ------------------------------------------------------------ moduli */
+.adm-modulo {
+  display: grid;
+  gap: 1rem;
+}
+.adm-form {
+  display: grid;
+  gap: 1.1rem;
+}
+.adm-form .campo input:not([type='checkbox']),
+.adm-form .campo textarea,
+.adm-form .campo select {
+  border-width: 1px;
+  border-radius: 6px;
+  min-height: 2.75rem;
+  background: white;
+  font-size: 1rem; /* 16px: iOS non fa zoom entrando nel campo */
+}
+.adm-form .campo textarea {
+  min-height: 6rem;
+}
+.adm-form .campo select {
+  padding-block: 0.5rem;
+}
+.adm-contatore {
+  justify-self: end;
+  font-size: 0.8125rem;
+  color: var(--adm-testo-tenue);
+}
+.adm-slug {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.adm-slug span {
+  font-size: 0.875rem;
+  color: var(--adm-testo-tenue);
+  white-space: nowrap;
+}
+.adm-slug input {
+  flex: 1;
+  min-width: 0;
+}
+.adm-sola-lettura {
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--adm-primario);
+  background: var(--adm-primario-velo);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.adm-originale summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--adm-primario);
+}
+.adm-originale p {
+  margin-top: 0.5rem;
+  color: var(--adm-testo-tenue);
+  font-size: 0.9375rem;
+}
+.adm-pw {
+  display: flex;
+  gap: 0.5rem;
+}
+.adm-pw input {
+  flex: 1;
+  min-width: 0;
+}
+/* Salva sempre a portata di pollice, anche nei moduli lunghi. */
+.adm-barra-salva {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: grid;
+  gap: 0.6rem;
+  margin-inline: -0.25rem;
+  padding: 0.75rem 0.25rem calc(0.75rem + env(safe-area-inset-bottom));
+  background: color-mix(in oklab, var(--adm-sfondo) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--adm-bordo);
+}
+.adm-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.adm-check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  flex: none;
+  accent-color: var(--adm-primario);
+}
+.adm-check small {
+  display: block;
+  font-weight: 400;
+  color: var(--adm-testo-tenue);
+}
+.adm-due {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 40rem) {
+  .adm-due {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.adm-anteprima {
+  padding: 1.25rem;
+  border: 1px dashed var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+  background: var(--adm-chiaro);
+  overflow: hidden;
+}
+.adm-anteprima__etichetta {
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--adm-testo-tenue);
+}
+.adm-img {
+  display: grid;
+  gap: 0.5rem;
+}
+.adm-img img {
+  max-width: 16rem;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--adm-bordo);
+}
+
+/* ------------------------------------------------------------ immagini */
+.adm-galleria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+.adm-galleria li {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid var(--adm-bordo);
+  border-radius: var(--adm-raggio);
+  font-size: 0.8125rem;
+}
+.adm-galleria img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.adm-galleria code {
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------ editor Tiptap */
+.adm-editor {
+  border: 1px solid color-mix(in oklab, var(--adm-testo) 45%, var(--adm-chiaro));
+  border-radius: 6px;
+  background: white;
+}
+.adm-editor__barra {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  border-bottom: 1px solid var(--adm-bordo);
+  background: #faf9f7;
+  border-radius: 6px 6px 0 0;
+}
+.adm-editor__barra button {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+@media (hover: hover) {
+  .adm-editor__barra button:hover {
+    background: #efebe6;
+  }
+}
+.adm-editor__barra button[aria-pressed='true'] {
+  background: var(--adm-primario);
+  color: var(--adm-chiaro);
+}
+.adm-editor .tiptap {
+  min-height: 12rem;
+  padding: 1rem;
+  outline: none;
+}
+.adm-editor .tiptap:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--adm-primario);
+  border-radius: 0 0 6px 6px;
+}
+.adm-editor .tiptap > * + * {
+  margin-top: 0.8em;
+}
+.adm-editor .tiptap h2,
+.adm-editor .tiptap h3 {
+  font-family: var(--adm-font);
+  color: var(--adm-primario);
+}
+.adm-editor .tiptap ul,
+.adm-editor .tiptap ol {
+  padding-left: 1.3em;
+}
+.adm-editor .tiptap img {
+  max-width: 100%;
+}
+.adm-editor .tiptap img.ProseMirror-selectednode {
+  outline: 3px solid var(--adm-primario);
+}
+
+/* ------------------------------------------------------------ accesso */
+.adm-login {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1rem;
+  min-height: 100dvh;
+  padding: 1rem;
+  background: var(--adm-sfondo);
+}
+.adm-login .adm-card {
+  width: min(100%, 26rem);
+}
+.adm-login .adm-card > a {
+  justify-self: start;
+}
+
+/* Telefoni: il modulo non si fa allargare dal contenuto e i link si toccano col dito. */
+.adm-card {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (pointer: coarse), (max-width: 63.99rem) {
+  .adm-link,
+  .adm-login .adm-card > a,
+  .adm-barra a,
+  .adm-barra button,
+  .adm-nav a,
+  .adm-chips button,
+  button.adm-stato {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+}
+@media (max-width: 22.49rem) {
+  .adm-login {
+    padding: 0.5rem;
+  }
+  .adm-login .adm-card {
+    padding: 0.75rem;
+  }
+}
+
+/* ------------------------------------------------------------ etichette */
+/* Etichetta di testo nell'elenco (es. "Bozza"): non solo colore. */
+.adm-etichetta {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border: 1.5px dashed currentColor;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--adm-errore);
+  vertical-align: 0.1em;
+}

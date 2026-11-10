@@ -1,0 +1,131 @@
+/*
+  Base dell'area editor e del cassetto della modalità modifica.
+  In VVV questi stili venivano da src/styles/tokens.css e global.css del sito:
+  qui sono limitati a .adm (e alle variabili --adm-*), così non toccano il sito pubblico.
+  I colori veri arrivano dalla config (tema), applicati da admin/tema.ts.
+*/
+:root {
+  /* Valori di riserva: li sostituisce applicaTema() con quelli della config. */
+  --adm-primario: #2f3e5c;
+  --adm-chiaro: #faf8f4;
+  --adm-testo: #1d1b20;
+  --adm-errore: #8f1d1d;
+  --adm-ok: #2d5a34;
+  --adm-font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Sfumature ricavate: non vanno toccate. */
+  --adm-primario-scuro: color-mix(in oklab, var(--adm-primario) 78%, black);
+  --adm-primario-velo: color-mix(in oklab, var(--adm-primario) 9%, var(--adm-chiaro));
+  --adm-primario-velo-2: color-mix(in oklab, var(--adm-primario) 16%, var(--adm-chiaro));
+  --adm-testo-tenue: color-mix(in oklab, var(--adm-testo) 74%, var(--adm-chiaro));
+  --adm-su-primario-tenue: color-mix(in oklab, var(--adm-chiaro) 82%, var(--adm-primario));
+  --adm-carta: #fffdf9;
+  --adm-ombra: 0 1px 1px rgb(30 20 22 / 0.06), 0 10px 22px -14px rgb(30 20 22 / 0.35);
+  --adm-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.adm {
+  font-family: var(--adm-font);
+  line-height: 1.5;
+}
+.adm *,
+.adm *::before,
+.adm *::after {
+  box-sizing: border-box;
+}
+.adm img {
+  max-width: 100%;
+  height: auto;
+}
+.adm :is(input, button, textarea, select) {
+  font: inherit;
+  color: inherit;
+}
+.adm button {
+  cursor: pointer;
+}
+.adm :is(h1, h2, h3, h4, p, ul, ol) {
+  margin: 0;
+}
+
+.adm .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.adm .salta-contenuto {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--adm-primario);
+  color: var(--adm-chiaro);
+  font-weight: 700;
+  text-decoration: none;
+}
+.adm .salta-contenuto:focus {
+  top: 0.75rem;
+}
+
+/* Campi dei moduli (in VVV: .campo di global.css) */
+.adm .campo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+}
+.adm .campo label,
+.adm .campo .label {
+  font-weight: 700;
+}
+.adm .campo input,
+.adm .campo textarea,
+.adm .campo select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid color-mix(in oklab, var(--adm-testo) 45%, var(--adm-chiaro));
+  border-radius: 0;
+  background: var(--adm-carta);
+  transition: border-color 140ms var(--adm-ease);
+}
+.adm .campo textarea {
+  min-height: 10rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+@media (hover: hover) {
+  .adm .campo input:hover,
+  .adm .campo textarea:hover {
+    border-color: var(--adm-testo);
+  }
+}
+.adm .campo input:focus-visible,
+.adm .campo textarea:focus-visible,
+.adm .campo select:focus-visible {
+  outline-offset: 0;
+  border-color: var(--adm-primario);
+}
+.adm .campo [aria-invalid='true'] {
+  border-color: var(--adm-errore);
+}
+.adm .campo__aiuto {
+  font-size: 0.9375rem;
+  color: var(--adm-testo-tenue);
+}
+.adm .campo__errore {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--adm-errore);
+}
+.adm ::placeholder {
+  color: color-mix(in oklab, var(--adm-testo) 62%, var(--adm-chiaro));
+  opacity: 1;
+}
